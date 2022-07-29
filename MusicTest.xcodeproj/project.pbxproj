@@ -7,23 +7,61 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		022C2556288A59820011B4FC /* OldFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022C2555288A59820011B4FC /* OldFile.swift */; };
+		023EF052288E8B3300D4FA58 /* SongEngineObserverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF051288E8B3300D4FA58 /* SongEngineObserverPresenter.swift */; };
+		023EF0552891352400D4FA58 /* MusicPlayerTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF0542891352400D4FA58 /* MusicPlayerTransitionAnimation.swift */; };
+		025298DD28938F6E008C8584 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025298DC28938F6E008C8584 /* LineView.swift */; };
+		025298DF289391F1008C8584 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025298DE289391F1008C8584 /* MainViewController.swift */; };
+		026D3CFB287D1EE9004287F6 /* PlayerEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026D3CF9287D1EE9004287F6 /* PlayerEngine.swift */; };
+		026D3CFC287D1EE9004287F6 /* MediaPlayerRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026D3CFA287D1EE9004287F6 /* MediaPlayerRule.swift */; };
+		02CDA21A28813C3E001B38B9 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CDA21928813C3E001B38B9 /* Track.swift */; };
+		02CDA21C28813C49001B38B9 /* DummyTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CDA21B28813C49001B38B9 /* DummyTrack.swift */; };
+		02CDA21E2881472B001B38B9 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CDA21D2881472B001B38B9 /* DetailViewController.swift */; };
+		02CDA22028815135001B38B9 /* SongServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CDA21F28815135001B38B9 /* SongServices.swift */; };
+		02CDA2222885D2C9001B38B9 /* SongRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CDA2212885D2C9001B38B9 /* SongRules.swift */; };
+		02CDA2242886B242001B38B9 /* SongEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CDA2232886B242001B38B9 /* SongEngine.swift */; };
 		02F47A5F287C4A07003E70A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F47A5E287C4A07003E70A6 /* AppDelegate.swift */; };
 		02F47A61287C4A07003E70A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F47A60287C4A07003E70A6 /* SceneDelegate.swift */; };
 		02F47A63287C4A07003E70A6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F47A62287C4A07003E70A6 /* ViewController.swift */; };
-		02F47A66287C4A07003E70A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02F47A64287C4A07003E70A6 /* Main.storyboard */; };
 		02F47A68287C4A0A003E70A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02F47A67287C4A0A003E70A6 /* Assets.xcassets */; };
 		02F47A6B287C4A0A003E70A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02F47A69287C4A0A003E70A6 /* LaunchScreen.storyboard */; };
+		02F47A75287C5710003E70A6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F47A74287C5710003E70A6 /* LoginViewController.swift */; };
+		02F47A78287C5834003E70A6 /* AlertExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F47A77287C5834003E70A6 /* AlertExtensions.swift */; };
+		02F47A7B287C618F003E70A6 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F47A7A287C618F003E70A6 /* User.swift */; };
+		02F47A7E287C65D6003E70A6 /* LoginServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F47A7D287C65D6003E70A6 /* LoginServices.swift */; };
+		02F47A80287C7792003E70A6 /* ViewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F47A7F287C7792003E70A6 /* ViewTableCell.swift */; };
+		FD235F77A0C93967D07A7C2B /* Pods_MusicTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7840DC7A707044BB399047C /* Pods_MusicTest.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00FDF72B2E88CADD5545CC95 /* Pods-MusicTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicTest.release.xcconfig"; path = "Target Support Files/Pods-MusicTest/Pods-MusicTest.release.xcconfig"; sourceTree = "<group>"; };
+		022C2555288A59820011B4FC /* OldFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldFile.swift; sourceTree = "<group>"; };
+		023EF051288E8B3300D4FA58 /* SongEngineObserverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEngineObserverPresenter.swift; sourceTree = "<group>"; };
+		023EF0542891352400D4FA58 /* MusicPlayerTransitionAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerTransitionAnimation.swift; sourceTree = "<group>"; };
+		025298DC28938F6E008C8584 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
+		025298DE289391F1008C8584 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		026D3CF9287D1EE9004287F6 /* PlayerEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerEngine.swift; sourceTree = "<group>"; };
+		026D3CFA287D1EE9004287F6 /* MediaPlayerRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPlayerRule.swift; sourceTree = "<group>"; };
+		02CDA21928813C3E001B38B9 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		02CDA21B28813C49001B38B9 /* DummyTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyTrack.swift; sourceTree = "<group>"; };
+		02CDA21D2881472B001B38B9 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		02CDA21F28815135001B38B9 /* SongServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongServices.swift; sourceTree = "<group>"; };
+		02CDA2212885D2C9001B38B9 /* SongRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongRules.swift; sourceTree = "<group>"; };
+		02CDA2232886B242001B38B9 /* SongEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEngine.swift; sourceTree = "<group>"; };
 		02F47A5B287C4A07003E70A6 /* MusicTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		02F47A5E287C4A07003E70A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		02F47A60287C4A07003E70A6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		02F47A62287C4A07003E70A6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		02F47A65287C4A07003E70A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		02F47A67287C4A0A003E70A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		02F47A6A287C4A0A003E70A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		02F47A6C287C4A0A003E70A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		02F47A74287C5710003E70A6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		02F47A77287C5834003E70A6 /* AlertExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertExtensions.swift; sourceTree = "<group>"; };
+		02F47A7A287C618F003E70A6 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		02F47A7D287C65D6003E70A6 /* LoginServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginServices.swift; sourceTree = "<group>"; };
+		02F47A7F287C7792003E70A6 /* ViewTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTableCell.swift; sourceTree = "<group>"; };
+		8B6C3791AB7D0782E82E5D87 /* Pods-MusicTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicTest.debug.xcconfig"; path = "Target Support Files/Pods-MusicTest/Pods-MusicTest.debug.xcconfig"; sourceTree = "<group>"; };
+		C7840DC7A707044BB399047C /* Pods_MusicTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MusicTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD235F77A0C93967D07A7C2B /* Pods_MusicTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +81,8 @@
 			children = (
 				02F47A5D287C4A07003E70A6 /* MusicTest */,
 				02F47A5C287C4A07003E70A6 /* Products */,
+				B738C5DB665960A1B9385B17 /* Pods */,
+				0B6E1150CFC4E8B516C0CDD6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +97,89 @@
 		02F47A5D287C4A07003E70A6 /* MusicTest */ = {
 			isa = PBXGroup;
 			children = (
-				02F47A5E287C4A07003E70A6 /* AppDelegate.swift */,
-				02F47A60287C4A07003E70A6 /* SceneDelegate.swift */,
-				02F47A62287C4A07003E70A6 /* ViewController.swift */,
-				02F47A64287C4A07003E70A6 /* Main.storyboard */,
+				026D3CFA287D1EE9004287F6 /* MediaPlayerRule.swift */,
+				026D3CF9287D1EE9004287F6 /* PlayerEngine.swift */,
+				02F47A7C287C65C9003E70A6 /* Services */,
+				02F47A79287C6185003E70A6 /* Model */,
+				02F47A76287C582B003E70A6 /* Utils */,
+				02F47A73287C56EE003E70A6 /* View */,
+				02F47A72287C56EA003E70A6 /* Base */,
 				02F47A67287C4A0A003E70A6 /* Assets.xcassets */,
 				02F47A69287C4A0A003E70A6 /* LaunchScreen.storyboard */,
 				02F47A6C287C4A0A003E70A6 /* Info.plist */,
+				022C2555288A59820011B4FC /* OldFile.swift */,
 			);
 			path = MusicTest;
+			sourceTree = "<group>";
+		};
+		02F47A72287C56EA003E70A6 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				02F47A5E287C4A07003E70A6 /* AppDelegate.swift */,
+				02F47A60287C4A07003E70A6 /* SceneDelegate.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		02F47A73287C56EE003E70A6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				02F47A62287C4A07003E70A6 /* ViewController.swift */,
+				02F47A74287C5710003E70A6 /* LoginViewController.swift */,
+				02F47A7F287C7792003E70A6 /* ViewTableCell.swift */,
+				02CDA21D2881472B001B38B9 /* DetailViewController.swift */,
+				023EF0542891352400D4FA58 /* MusicPlayerTransitionAnimation.swift */,
+				025298DC28938F6E008C8584 /* LineView.swift */,
+				025298DE289391F1008C8584 /* MainViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		02F47A76287C582B003E70A6 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				02F47A77287C5834003E70A6 /* AlertExtensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		02F47A79287C6185003E70A6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				02F47A7A287C618F003E70A6 /* User.swift */,
+				02CDA21928813C3E001B38B9 /* Track.swift */,
+				02CDA21B28813C49001B38B9 /* DummyTrack.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		02F47A7C287C65C9003E70A6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				02F47A7D287C65D6003E70A6 /* LoginServices.swift */,
+				02CDA21F28815135001B38B9 /* SongServices.swift */,
+				02CDA2212885D2C9001B38B9 /* SongRules.swift */,
+				02CDA2232886B242001B38B9 /* SongEngine.swift */,
+				023EF051288E8B3300D4FA58 /* SongEngineObserverPresenter.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		0B6E1150CFC4E8B516C0CDD6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C7840DC7A707044BB399047C /* Pods_MusicTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B738C5DB665960A1B9385B17 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8B6C3791AB7D0782E82E5D87 /* Pods-MusicTest.debug.xcconfig */,
+				00FDF72B2E88CADD5545CC95 /* Pods-MusicTest.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +189,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 02F47A6F287C4A0A003E70A6 /* Build configuration list for PBXNativeTarget "MusicTest" */;
 			buildPhases = (
+				D0EA9F2779CBA71A7B9EB212 /* [CP] Check Pods Manifest.lock */,
 				02F47A57287C4A07003E70A6 /* Sources */,
 				02F47A58287C4A07003E70A6 /* Frameworks */,
 				02F47A59287C4A07003E70A6 /* Resources */,
+				8C4EFD3FD954AC3A275DDB35 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -127,34 +244,85 @@
 			files = (
 				02F47A6B287C4A0A003E70A6 /* LaunchScreen.storyboard in Resources */,
 				02F47A68287C4A0A003E70A6 /* Assets.xcassets in Resources */,
-				02F47A66287C4A07003E70A6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8C4EFD3FD954AC3A275DDB35 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MusicTest/Pods-MusicTest-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MusicTest/Pods-MusicTest-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MusicTest/Pods-MusicTest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D0EA9F2779CBA71A7B9EB212 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MusicTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		02F47A57287C4A07003E70A6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				025298DF289391F1008C8584 /* MainViewController.swift in Sources */,
+				02CDA22028815135001B38B9 /* SongServices.swift in Sources */,
+				02CDA21E2881472B001B38B9 /* DetailViewController.swift in Sources */,
+				02CDA2222885D2C9001B38B9 /* SongRules.swift in Sources */,
+				02F47A75287C5710003E70A6 /* LoginViewController.swift in Sources */,
+				02CDA21A28813C3E001B38B9 /* Track.swift in Sources */,
+				023EF052288E8B3300D4FA58 /* SongEngineObserverPresenter.swift in Sources */,
+				026D3CFC287D1EE9004287F6 /* MediaPlayerRule.swift in Sources */,
+				02F47A80287C7792003E70A6 /* ViewTableCell.swift in Sources */,
+				025298DD28938F6E008C8584 /* LineView.swift in Sources */,
+				02CDA21C28813C49001B38B9 /* DummyTrack.swift in Sources */,
+				022C2556288A59820011B4FC /* OldFile.swift in Sources */,
+				02CDA2242886B242001B38B9 /* SongEngine.swift in Sources */,
+				023EF0552891352400D4FA58 /* MusicPlayerTransitionAnimation.swift in Sources */,
+				02F47A78287C5834003E70A6 /* AlertExtensions.swift in Sources */,
+				02F47A7B287C618F003E70A6 /* User.swift in Sources */,
 				02F47A63287C4A07003E70A6 /* ViewController.swift in Sources */,
 				02F47A5F287C4A07003E70A6 /* AppDelegate.swift in Sources */,
+				02F47A7E287C65D6003E70A6 /* LoginServices.swift in Sources */,
 				02F47A61287C4A07003E70A6 /* SceneDelegate.swift in Sources */,
+				026D3CFB287D1EE9004287F6 /* PlayerEngine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		02F47A64287C4A07003E70A6 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				02F47A65287C4A07003E70A6 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		02F47A69287C4A0A003E70A6 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -282,6 +450,7 @@
 		};
 		02F47A70287C4A0A003E70A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8B6C3791AB7D0782E82E5D87 /* Pods-MusicTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -292,9 +461,9 @@
 				INFOPLIST_FILE = MusicTest/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -310,6 +479,7 @@
 		};
 		02F47A71287C4A0A003E70A6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 00FDF72B2E88CADD5545CC95 /* Pods-MusicTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -320,9 +490,9 @@
 				INFOPLIST_FILE = MusicTest/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
