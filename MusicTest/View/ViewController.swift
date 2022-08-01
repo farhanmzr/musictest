@@ -6,11 +6,8 @@
 //
 
 import UIKit
-import ARNTransitionAnimator
 
 class ViewController: UIViewController {
-    
-    private var animator : ARNTransitionAnimator?
     
     lazy var contentView: UIView = {
       let contentView = UIView()
@@ -38,38 +35,6 @@ class ViewController: UIViewController {
         return tv
     }()
     
-    lazy var miniPlayerView: LineView = {
-        let lv = LineView()
-        lv.backgroundColor = UIColor.gray
-        lv.translatesAutoresizingMaskIntoConstraints = false
-        return lv
-    }()
-    
-    private lazy var titleLabel: UILabel = {
-      let label = UILabel()
-      label.textColor = .black
-      label.translatesAutoresizingMaskIntoConstraints = false
-      label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-      label.numberOfLines = 1
-      return label
-    }()
-    
-    private lazy var artistLabel: UILabel = {
-      let label = UILabel()
-      label.textColor = .black
-      label.translatesAutoresizingMaskIntoConstraints = false
-      label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-      label.numberOfLines = 1
-      return label
-    }()
-    
-    private lazy var miniPlayerButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(tapMiniPlayerButton), for: .touchUpInside)
-        return button
-    }()
-    
     lazy var activityIndicator: UIActivityIndicatorView = {
       let activityIndicator = UIActivityIndicatorView()
       activityIndicator.hidesWhenStopped = true
@@ -81,13 +46,16 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        view.backgroundColor = .white
+        self.tabBarController?.tabBar.isHidden = false
         setupView()
         setupActivityIndicator()
-        setupAnimator()
+//        configureHiddenVC()
     }
     
     func setupView() {
+        title = "Home"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = .white
         
         view.addSubview(contentView)
         NSLayoutConstraint.activate([
@@ -114,39 +82,6 @@ class ViewController: UIViewController {
         tableView.register(ViewTableCell.self, forCellReuseIdentifier: "reuseIdentifier")
         tableView.dataSource = self
         tableView.delegate = self
-        
-        contentView.addSubview(miniPlayerView)
-        NSLayoutConstraint.activate([
-            miniPlayerView.topAnchor.constraint(equalTo: tableView.bottomAnchor),
-            miniPlayerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            miniPlayerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            miniPlayerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, artistLabel])
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-
-        //add stack view as subview to main view with AutoLayout
-        contentView.addSubview(stackView)
-        NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: miniPlayerView.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: miniPlayerView.centerYAnchor)
-        ])
-        titleLabel.text = "TITLE"
-        artistLabel.text = "ARTIST"
-        
-//        contentView.addSubview(miniPlayerButton)
-//        NSLayoutConstraint.activate([
-//            miniPlayerButton.topAnchor.constraint(equalTo: miniPlayerView.topAnchor),
-//            miniPlayerButton.bottomAnchor.constraint(equalTo: miniPlayerView.bottomAnchor),
-//            miniPlayerButton.leadingAnchor.constraint(equalTo: miniPlayerView.leadingAnchor),
-//            miniPlayerButton.trailingAnchor.constraint(equalTo: miniPlayerView.trailingAnchor)
-//        ])
-//        let color = UIColor(red: 0.4, green: 0.4, blue: 0.4, alpha: 0.3)
-//        miniPlayerButton.setBackgroundImage(self.generateImageWithColor(color), for: .highlighted)
-        
     }
     
     private func setupActivityIndicator() {
@@ -156,67 +91,10 @@ class ViewController: UIViewController {
       activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
-    func setupAnimator() {
-        let modalVC = DetailViewController()
-        let animation = MusicPlayerTransitionAnimation(rootVC: self, modalVC: modalVC)
-        animation.completion = { [weak self] isPresenting in
-            if isPresenting {
-                guard let _self = self else { return }
-                let modalGestureHandler = TransitionGestureHandler(targetView: modalVC.view, direction: .bottom)
-                modalGestureHandler.panCompletionThreshold = 15.0
-                _self.animator?.registerInteractiveTransitioning(.dismiss, gestureHandler: modalGestureHandler)
-            } else {
-                self?.setupAnimator()
-            }
-        }
-        
-        let gestureHandler = TransitionGestureHandler(targetView: self.miniPlayerView, direction: .top)
-        gestureHandler.panCompletionThreshold = 15.0
-        gestureHandler.panFrameSize = self.view.bounds.size
-
-        self.animator = ARNTransitionAnimator(duration: 0.5, animation: animation)
-        self.animator?.registerInteractiveTransitioning(.present, gestureHandler: gestureHandler)
-        
-        modalVC.transitioningDelegate = self.animator
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
-        print("ViewController viewWillAppear")
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.isNavigationBarHidden = false
-        print("ViewController viewWillDisappear")
-    }
-    
     @objc func clickLogout(){
         UserDefaults.standard.removeObject(forKey: "is_authenticated")
         let viewController = LoginViewController()
         self.navigationController?.pushViewController(viewController, animated: true)
-    }
-    
-    @objc func tapMiniPlayerButton() {
-        let modalVC = DetailViewController()
-        modalVC.modalPresentationStyle = .overCurrentContext
-        self.present(modalVC, animated: true, completion: nil)
-    }
-    
-    fileprivate func generateImageWithColor(_ color: UIColor) -> UIImage {
-        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
-        
-        UIGraphicsBeginImageContext(rect.size)
-        let context = UIGraphicsGetCurrentContext()
-        
-        context?.setFillColor(color.cgColor)
-        context?.fill(rect)
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return image!
     }
 }
 

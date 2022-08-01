@@ -11,7 +11,7 @@ import ARNTransitionAnimator
 
 final class MusicPlayerTransitionAnimation : TransitionAnimatable {
     
-    fileprivate weak var rootVC: ViewController!
+    fileprivate weak var rootVC: MainViewController!
     fileprivate weak var modalVC: DetailViewController!
     
     var completion: ((Bool) -> Void)?
@@ -25,7 +25,7 @@ final class MusicPlayerTransitionAnimation : TransitionAnimatable {
         print("deinit MusicPlayerTransitionAnimation")
     }
     
-    init(rootVC: ViewController, modalVC: DetailViewController) {
+    init(rootVC: MainViewController, modalVC: DetailViewController) {
         self.rootVC = rootVC
         self.modalVC = modalVC
     }
@@ -44,8 +44,7 @@ final class MusicPlayerTransitionAnimation : TransitionAnimatable {
         self.modalVC.view.layoutIfNeeded()
         
         self.miniPlayerStartFrame = self.rootVC.miniPlayerView.frame
-        let mainVC = MainViewController()
-        self.tabBarStartFrame = self.rootVC.tabBarController.tabBar.frame
+        self.tabBarStartFrame = self.rootVC.tabBarController!.tabBar.frame
     }
     
     func willAnimation(_ transitionType: TransitionType, containerView: UIView) {
@@ -81,7 +80,7 @@ final class MusicPlayerTransitionAnimation : TransitionAnimatable {
             self.rootVC.tabBarController!.tabBar.frame.origin.y = min(max(tabY, self.tabBarStartFrame.origin.y), tabEndOriginY)
             
             let alpha = 1.0 - (1.0 * percentComplete)
-            self.rootVC.contentView.subviews.forEach { $0.alpha = alpha + 0.4 }
+            self.rootVC.view.subviews.forEach { $0.alpha = alpha + 0.4 }
 //            self.rootVC.containerView.alpha = alpha + 0.1
             self.rootVC.tabBarController!.tabBar.alpha = alpha
         } else {
@@ -90,7 +89,7 @@ final class MusicPlayerTransitionAnimation : TransitionAnimatable {
             let endOriginY = self.miniPlayerStartFrame.origin.y
             let diff = -startOriginY + endOriginY
             // tabBar
-            let tabStartOriginY = self.rootVC.contentView.bounds.size.height
+            let tabStartOriginY = self.rootVC.view.bounds.size.height
             let tabEndOriginY = self.tabBarStartFrame.origin.y
             let tabDiff = tabStartOriginY - tabEndOriginY
             
@@ -100,7 +99,7 @@ final class MusicPlayerTransitionAnimation : TransitionAnimatable {
             self.rootVC.tabBarController!.tabBar.frame.origin.y = tabStartOriginY - (tabDiff * (1.0 - percentComplete))
             
             let alpha = 1.0 * percentComplete
-            self.rootVC.contentView.subviews.forEach { $0.alpha = alpha + 0.4 }
+            self.rootVC.view.subviews.forEach { $0.alpha = alpha + 0.4 }
             self.rootVC.tabBarController!.tabBar.alpha = alpha
         }
     }

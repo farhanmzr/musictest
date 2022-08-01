@@ -14,6 +14,7 @@
 		025298DF289391F1008C8584 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025298DE289391F1008C8584 /* MainViewController.swift */; };
 		026D3CFB287D1EE9004287F6 /* PlayerEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026D3CF9287D1EE9004287F6 /* PlayerEngine.swift */; };
 		026D3CFC287D1EE9004287F6 /* MediaPlayerRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026D3CFA287D1EE9004287F6 /* MediaPlayerRule.swift */; };
+		02B070C82897877A00C6C8AE /* DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02B070C72897877A00C6C8AE /* DeviceType.swift */; };
 		02CDA21A28813C3E001B38B9 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CDA21928813C3E001B38B9 /* Track.swift */; };
 		02CDA21C28813C49001B38B9 /* DummyTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CDA21B28813C49001B38B9 /* DummyTrack.swift */; };
 		02CDA21E2881472B001B38B9 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CDA21D2881472B001B38B9 /* DetailViewController.swift */; };
@@ -42,6 +43,7 @@
 		025298DE289391F1008C8584 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		026D3CF9287D1EE9004287F6 /* PlayerEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerEngine.swift; sourceTree = "<group>"; };
 		026D3CFA287D1EE9004287F6 /* MediaPlayerRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPlayerRule.swift; sourceTree = "<group>"; };
+		02B070C72897877A00C6C8AE /* DeviceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceType.swift; sourceTree = "<group>"; };
 		02CDA21928813C3E001B38B9 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		02CDA21B28813C49001B38B9 /* DummyTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyTrack.swift; sourceTree = "<group>"; };
 		02CDA21D2881472B001B38B9 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				02F47A77287C5834003E70A6 /* AlertExtensions.swift */,
+				02B070C72897877A00C6C8AE /* DeviceType.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				02F47A63287C4A07003E70A6 /* ViewController.swift in Sources */,
 				02F47A5F287C4A07003E70A6 /* AppDelegate.swift in Sources */,
 				02F47A7E287C65D6003E70A6 /* LoginServices.swift in Sources */,
+				02B070C82897877A00C6C8AE /* DeviceType.swift in Sources */,
 				02F47A61287C4A07003E70A6 /* SceneDelegate.swift in Sources */,
 				026D3CFB287D1EE9004287F6 /* PlayerEngine.swift in Sources */,
 			);

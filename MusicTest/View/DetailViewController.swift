@@ -10,16 +10,31 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
+    enum MusicPlayerViewControllerPanelState {
+        case isMaximize
+        case isMinimize
+        case isClosed
+    }
+    
+    fileprivate let fullView: CGFloat = 0
+    fileprivate var partialView: CGFloat {
+        return UIScreen.main.bounds.height
+    }
+    fileprivate var panelState: MusicPlayerViewControllerPanelState = .isClosed
+    
     var track: Track?
-    
-    
-    var tapCloseButtonActionHandler : (() -> Void)?
-    
     var currentState: State = .Stop
     var duration = 0.0
     
     private var sliderThumbWidth:CGFloat?
     private var bufferIndicator:UIView?
+    
+    private let btnClose: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .gray
+        button.setTitle("X", for: .normal)
+        return button
+    }()
     
     lazy var titleLabel: UILabel = {
       let label = UILabel()
@@ -102,15 +117,10 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        view.backgroundColor = .white
-        
-        let effect = UIBlurEffect(style: .light)
-        let blurView = UIVisualEffectView(effect: effect)
-        blurView.frame = self.view.bounds
-        self.view.addSubview(blurView)
-        self.view.sendSubviewToBack(blurView)
+        view.backgroundColor = .systemBackground
         setupView()
         setupActivityIndicator()
+        
         guard let track = track else {
             return
         }
@@ -126,6 +136,12 @@ class DetailViewController: UIViewController {
         
         SongEngine.sharedInstance.songDelegate = self
         
+        closePanelController(animated: false, completion: nil)
+    }
+    
+    func closePanelController(animated: Bool, completion: (() -> Void)?) {
+        panelState = .isClosed
+        view.alpha = 0
     }
     
     private func setupActivityIndicator() {
@@ -137,9 +153,24 @@ class DetailViewController: UIViewController {
     
     private func setupView(){
         
+        view.addSubview(btnClose)
+        
+        var constraints: [NSLayoutConstraint] = []
+        
+        btnClose.translatesAutoresizingMaskIntoConstraints = false
+        
+        constraints += [NSLayoutConstraint(item: btnClose, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 50)]
+        constraints += [NSLayoutConstraint(item: btnClose, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 50)]
+        constraints += [NSLayoutConstraint(item: btnClose, attribute: .width, relatedBy: .equal, toItem: btnClose, attribute: .height, multiplier: 1, constant: 0)]
+        constraints += [NSLayoutConstraint(item: btnClose, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 0)]
+        
+        NSLayoutConstraint.activate(constraints)
+        
+        btnClose.addTarget(self, action: #selector(minimizeThisPage), for: .touchDown)
+        
         view.addSubview(titleLabel)
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
+            titleLabel.topAnchor.constraint(equalTo: btnClose.bottomAnchor, constant: 32),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         view.addSubview(artistLabel)
@@ -176,6 +207,10 @@ class DetailViewController: UIViewController {
             stateButton.topAnchor.constraint(equalTo: currentDurationSong.bottomAnchor, constant: 32),
             stateButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+    }
+    
+    @objc private func minimizeThisPage() {
+        self.minimizePanelController(animated: true, duration: 0.5, completion: nil)
     }
     
     @objc func clickStateButton(){
@@ -292,3 +327,99 @@ extension DetailViewController: SongDelegate {
         bufferIndicator?.frame = frameValue
     }
 }
+
+extension DetailViewController {
+    
+    func setViewClosePanel(frame: CGRect) {
+        print("close frame: \(frame.height - MainViewController.minHeight)")
+        self.view.frame = CGRect(x: 0, y: frame.height,
+                                 width: frame.width, height: frame.height - MainViewController.minHeight)
+        self.view.layoutIfNeeded()
+        print("close frame result: \(self.view.frame)")
+    }
+    
+    func setMinimizePanel(frame: CGRect) {
+        self.view.frame = CGRect(x: 0, y: self.partialView,
+                                 width: frame.width, height: frame.height)
+        self.view.layoutIfNeeded()
+        print("minimize frame result: \(self.view.frame)")
+    }
+    
+    func setMaximizePanel(frame: CGRect) {
+        self.view.frame = CGRect(x: 0, y: self.fullView,
+                                 width: frame.width, height: frame.height)
+        self.view.layoutIfNeeded()
+        print("maximize frame result: \(self.view.frame)")
+    }
+    
+    func closePanelMusicPlayer_WithAnimation(isFinish: @escaping (Bool)->()) {
+        
+        let frame = UIScreen.main.bounds
+        
+        UIView.animateKeyframes(withDuration: 0.3, delay: 0.0, options: [.allowUserInteraction], animations: {
+            self.setViewClosePanel(frame: frame)
+        }, completion: { isFinished in
+            isFinish(isFinished)
+        })
+    }
+    
+    func maximizePanelMusicPlayer_withAnimation(frame: CGRect,duration: Double,isFinish: @escaping (Bool)->()) {
+        UIView.animateKeyframes(withDuration: 0.3, delay: 0.0, options: [.allowUserInteraction], animations: {
+            self.setMaximizePanel(frame: frame)
+        }, completion: { isFinished in
+            isFinish(isFinished)
+        })
+    }
+    
+    func minimizePanelMusicPlayer_withAnimation(frame: CGRect, duration: Double, isFinish: @escaping (Bool)->()) {
+        UIView.animateKeyframes(withDuration: 0.3, delay: 0.0, options: [.allowUserInteraction], animations: {
+            self.setMinimizePanel(frame: frame)
+        }, completion: { isFinished in
+            isFinish(isFinished)
+        })
+    }
+    
+    func maximizePanelController(animated: Bool, duration: Double, completion: (() -> Void)?){
+        let frame = UIScreen.main.bounds
+        view.alpha = 1
+        if animated {
+            maximizePanelMusicPlayer_withAnimation(frame: frame, duration: duration, isFinish: { isFinished in
+                guard isFinished else {
+                    return
+                }
+                self.setPanelState(state: .isMaximize)
+                completion?()
+            })
+            
+        }
+        else {
+            self.setMaximizePanel(frame: frame)
+            self.setPanelState(state: .isMaximize)
+            completion?()
+        }
+        
+    }
+    
+    func minimizePanelController(animated: Bool, duration: Double, completion: (() -> Void)?){
+        let frame = UIScreen.main.bounds
+        view.alpha = 0
+        if animated {
+            minimizePanelMusicPlayer_withAnimation(frame: frame, duration: duration, isFinish: { isFinished in
+                guard isFinished else {
+                    return
+                }
+                self.setPanelState(state: .isMinimize)
+                completion?()
+            })
+        } else {
+            self.setMinimizePanel(frame: frame)
+            self.setPanelState(state: .isMinimize)
+            completion?()
+        }
+    }
+    
+    func setPanelState(state: MusicPlayerViewControllerPanelState) {
+        panelState = state
+    }
+}
+
