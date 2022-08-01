@@ -63,7 +63,7 @@ class OldFile: UIViewController {
     lazy var activityIndicator: UIActivityIndicatorView = {
       let activityIndicator = UIActivityIndicatorView()
       activityIndicator.hidesWhenStopped = true
-      activityIndicator.style = .large
+//      activityIndicator.style = .large
       return activityIndicator
     }()
     
@@ -112,7 +112,8 @@ class OldFile: UIViewController {
         
         view.addSubview(titleLabel)
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            // fix compatibility for iOS13
+            titleLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 16),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24)
         ])
         view.addSubview(artistLabel)
@@ -171,7 +172,7 @@ class OldFile: UIViewController {
 
         // Set the metadata
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-        MPNowPlayingInfoCenter.default().playbackState = .playing
+//        MPNowPlayingInfoCenter.default().playbackState = .playing
     }
     
     //handle notification

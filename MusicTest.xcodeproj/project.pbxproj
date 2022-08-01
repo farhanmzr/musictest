@@ -22,7 +22,6 @@
 		02CDA2222885D2C9001B38B9 /* SongRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CDA2212885D2C9001B38B9 /* SongRules.swift */; };
 		02CDA2242886B242001B38B9 /* SongEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CDA2232886B242001B38B9 /* SongEngine.swift */; };
 		02F47A5F287C4A07003E70A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F47A5E287C4A07003E70A6 /* AppDelegate.swift */; };
-		02F47A61287C4A07003E70A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F47A60287C4A07003E70A6 /* SceneDelegate.swift */; };
 		02F47A63287C4A07003E70A6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F47A62287C4A07003E70A6 /* ViewController.swift */; };
 		02F47A68287C4A0A003E70A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02F47A67287C4A0A003E70A6 /* Assets.xcassets */; };
 		02F47A6B287C4A0A003E70A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02F47A69287C4A0A003E70A6 /* LaunchScreen.storyboard */; };
@@ -52,7 +51,6 @@
 		02CDA2232886B242001B38B9 /* SongEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEngine.swift; sourceTree = "<group>"; };
 		02F47A5B287C4A07003E70A6 /* MusicTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		02F47A5E287C4A07003E70A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		02F47A60287C4A07003E70A6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		02F47A62287C4A07003E70A6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		02F47A67287C4A0A003E70A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		02F47A6A287C4A0A003E70A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 			isa = PBXGroup;
 			children = (
 				02F47A5E287C4A07003E70A6 /* AppDelegate.swift */,
-				02F47A60287C4A07003E70A6 /* SceneDelegate.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -319,7 +316,6 @@
 				02F47A5F287C4A07003E70A6 /* AppDelegate.swift in Sources */,
 				02F47A7E287C65D6003E70A6 /* LoginServices.swift in Sources */,
 				02B070C82897877A00C6C8AE /* DeviceType.swift in Sources */,
-				02F47A61287C4A07003E70A6 /* SceneDelegate.swift in Sources */,
 				026D3CFB287D1EE9004287F6 /* PlayerEngine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -460,20 +456,20 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8A3GN3FCGF;
+				DEVELOPMENT_TEAM = 696BHPW9KB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MusicTest/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ios.farhanmzr.academy.MusicTest;
+				PRODUCT_BUNDLE_IDENTIFIER = "ios.farhanmzr.academy.MusicTest-jan";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -489,14 +485,14 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8A3GN3FCGF;
+				DEVELOPMENT_TEAM = 696BHPW9KB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MusicTest/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

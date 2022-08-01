@@ -153,7 +153,11 @@ extension SongEngine: MediaPlayerInfoCenter {
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = state ? 0 : 1
         
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-        MPNowPlayingInfoCenter.default().playbackState = .playing
+        if #available(iOS 13.0, *) {
+            MPNowPlayingInfoCenter.default().playbackState = .playing
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }
 
@@ -296,7 +300,11 @@ extension SongEngine: PrivateSongPlayerObserverRule {
             self.songDelegate?.updateProgresTime(time: time.seconds)
             //update time media info here
             MPNowPlayingInfoCenter.default().nowPlayingInfo?.updateValue(time.seconds, forKey: MPNowPlayingInfoPropertyElapsedPlaybackTime)
-            MPNowPlayingInfoCenter.default().playbackState = .playing
+            if #available(iOS 13.0, *) {
+                MPNowPlayingInfoCenter.default().playbackState = .playing
+            } else {
+                // Fallback on earlier versions
+            }
         })
     }
     

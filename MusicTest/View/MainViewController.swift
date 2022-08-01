@@ -71,9 +71,11 @@ class MainViewController: UITabBarController {
         
         let homeNavigationController = UINavigationController(rootViewController: ViewController())
         homeNavigationController.tabBarItem.title = "Home"
-        homeNavigationController.tabBarItem.image = UIImage(systemName: "music.note.house")
-        homeNavigationController.tabBarItem.selectedImage = UIImage(systemName: "music.note.house.fill")
-        homeNavigationController.navigationBar.prefersLargeTitles = true
+        
+        // di comment dulu karena UIImage(systemName:) cuma ada di iOS13
+//        homeNavigationController.tabBarItem.image = UIImage(systemName: "music.note.house")
+//        homeNavigationController.tabBarItem.selectedImage = UIImage(systemName: "music.note.house.fill")
+//        homeNavigationController.navigationBar.prefersLargeTitles = true
     
         self.setViewControllers([homeNavigationController], animated: false)
     }

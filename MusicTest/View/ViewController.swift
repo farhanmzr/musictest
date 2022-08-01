@@ -38,7 +38,7 @@ class ViewController: UIViewController {
     lazy var activityIndicator: UIActivityIndicatorView = {
       let activityIndicator = UIActivityIndicatorView()
       activityIndicator.hidesWhenStopped = true
-      activityIndicator.style = .large
+//      activityIndicator.style = .large
       activityIndicator.translatesAutoresizingMaskIntoConstraints = false
       return activityIndicator
     }()
@@ -54,15 +54,18 @@ class ViewController: UIViewController {
     
     func setupView() {
         title = "Home"
-        navigationController?.navigationBar.prefersLargeTitles = true
+//        navigationController?.navigationBar.prefersLargeTitles = true   // iOS13
         view.backgroundColor = .white
         
         view.addSubview(contentView)
         NSLayoutConstraint.activate([
           contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
           contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-          contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-          contentView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+          
+          // di ganti karena support ke iOS 13 doang
+          
+          contentView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+          contentView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor)
         ])
         
         contentView.addSubview(logoutButton)
@@ -112,7 +115,13 @@ extension ViewController : UITableViewDataSource {
         cell.detailTextLabel?.text = track.artist
         //for left image
 //        cell.imageView?.image = UIImage(systemName: "play.circle.fill")
-        cell.accessoryView = UIImageView(image: UIImage(systemName: "play.circle.fill"))
+        
+        // iOS 13
+        if #available(iOS 13.0, *) {
+            cell.accessoryView = UIImageView(image: UIImage(systemName: "play.circle.fill"))
+        } else {
+            // Fallback on earlier versions
+        }
 
         return cell
     }

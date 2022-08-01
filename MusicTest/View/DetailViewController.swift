@@ -111,16 +111,16 @@ class DetailViewController: UIViewController {
     lazy var activityIndicator: UIActivityIndicatorView = {
       let activityIndicator = UIActivityIndicatorView()
       activityIndicator.hidesWhenStopped = true
-      activityIndicator.style = .large
+//      activityIndicator.style = .large //iOS13
       return activityIndicator
     }()
     
     override func viewDidLoad() {
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white  // diganti karena value backgroundColor cuma ada di iOS13
         setupView()
         setupActivityIndicator()
-        
+        closePanelController(animated: false, completion: nil) // fix music player tidak ke hide
         guard let track = track else {
             return
         }
@@ -136,7 +136,7 @@ class DetailViewController: UIViewController {
         
         SongEngine.sharedInstance.songDelegate = self
         
-        closePanelController(animated: false, completion: nil)
+        
     }
     
     func closePanelController(animated: Bool, completion: (() -> Void)?) {

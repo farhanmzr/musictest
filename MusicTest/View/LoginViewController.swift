@@ -66,7 +66,7 @@ class LoginViewController: UIViewController {
       let activityIndicator = UIActivityIndicatorView()
       activityIndicator.hidesWhenStopped = true
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-      activityIndicator.style = .large
+//      activityIndicator.style = .large  //iOS13
       return activityIndicator
     }()
     
@@ -108,8 +108,11 @@ class LoginViewController: UIViewController {
             stackView.heightAnchor.constraint(equalToConstant: 240),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            stackView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
+            
+            // diganti karena yg sebelumnya cuma support iOS13
+            
+            stackView.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: view.layoutMarginsGuide.centerYAnchor)
         ])
         //visual format constraint
         
