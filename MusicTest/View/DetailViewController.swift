@@ -26,6 +26,8 @@ class DetailViewController: UIViewController {
     var currentState: State = .Stop
     var duration = 0.0
     
+    var sendTrackInfo: ((Track) -> ())?
+    
     private var sliderThumbWidth:CGFloat?
     private var bufferIndicator:UIView?
     
@@ -133,6 +135,7 @@ class DetailViewController: UIViewController {
             superself.artistLabel.text = track.artist
             superself.albumLabel.text = track.album
             print(track)
+            superself.sendTrackInfo?(track)
         }
         
 //        SongEngine.sharedInstance.updateState = { [weak self] status in
@@ -141,7 +144,7 @@ class DetailViewController: UIViewController {
 //            superself.currentState = status
 //        }
         
-        SongEngine.sharedInstance.songDelegate = self
+//        SongEngine.sharedInstance.songDelegate = self
         
         
     }

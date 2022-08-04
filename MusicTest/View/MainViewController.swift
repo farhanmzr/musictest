@@ -18,7 +18,9 @@ class MainViewController: UITabBarController {
         return DeviceType.current.isIphoneXClass ? 125 : 100
     }
     
-    private lazy var hiddenVC: UIViewController = {
+    private var player = SongEngine.sharedInstance
+    
+    private let hiddenVC: UIViewController = {
         let vc = DetailViewController()
         return vc
     }()
@@ -61,13 +63,21 @@ class MainViewController: UITabBarController {
         checkPlay()
         configureHiddenVC()
         
-        SongEngine.sharedInstance.getSong = { [weak self] track in
+        (hiddenVC as? DetailViewController)?.sendTrackInfo = { [weak self] track in
             guard let superself = self else {return}
             superself.track = track
             superself.titleLabel.text = track.title
             superself.artistLabel.text = track.artist
             superself.tapMiniPlayerButton()
         }
+        
+//        SongEngine.sharedInstance.getSong = { [weak self] track in
+//            guard let superself = self else {return}
+//            superself.track = track
+//            superself.titleLabel.text = track.title
+//            superself.artistLabel.text = track.artist
+//            superself.tapMiniPlayerButton()
+//        }
     }
     
     private func checkPlay(){
