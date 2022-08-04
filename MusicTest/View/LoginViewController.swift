@@ -72,6 +72,8 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         view.backgroundColor = .white
+        
+        self.tabBarController?.tabBar.isHidden = false
         setupTextFields()
         setupActivityIndicator()
     }
@@ -79,7 +81,7 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
         if UserDefaults.standard.bool(forKey: "is_authenticated"){
-            let viewcontroller = ViewController()
+            let viewcontroller = MainViewController()
             viewcontroller.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(viewcontroller, animated: true)
         }
@@ -92,7 +94,6 @@ class LoginViewController: UIViewController {
       activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
       activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
-    
     
     private func setupTextFields() {
         
@@ -153,7 +154,7 @@ class LoginViewController: UIViewController {
                 def.set(true, forKey: "is_authenticated")
                 def.synchronize()
                 self.presentAlertOK(title: "Login Success", message: "You are now logging in this app.") { _ in
-                    let viewcontroller = ViewController()
+                    let viewcontroller = MainViewController()
                     self.navigationController?.pushViewController(viewcontroller, animated: true)
                     //move root controller
                 }

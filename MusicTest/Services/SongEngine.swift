@@ -43,6 +43,8 @@ class SongEngine: NSObject, MediaPlayerSetupRules {
     var updateState: ((State) -> ())?
     var playerError: ((Error) -> ())?
     
+    var getSong: ((Track) -> ())?
+    
     override init() {
         player = AVPlayer()
         super.init()

@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		022C2556288A59820011B4FC /* OldFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022C2555288A59820011B4FC /* OldFile.swift */; };
+		023E1D8C289A73BE00F9E791 /* QueueEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023E1D8B289A73BE00F9E791 /* QueueEngine.swift */; };
+		023E1D8E289B8C4600F9E791 /* QueueRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023E1D8D289B8C4600F9E791 /* QueueRules.swift */; };
 		023EF052288E8B3300D4FA58 /* SongEngineObserverPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF051288E8B3300D4FA58 /* SongEngineObserverPresenter.swift */; };
 		023EF0552891352400D4FA58 /* MusicPlayerTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023EF0542891352400D4FA58 /* MusicPlayerTransitionAnimation.swift */; };
 		025298DD28938F6E008C8584 /* LineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025298DC28938F6E008C8584 /* LineView.swift */; };
@@ -36,6 +38,8 @@
 /* Begin PBXFileReference section */
 		00FDF72B2E88CADD5545CC95 /* Pods-MusicTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicTest.release.xcconfig"; path = "Target Support Files/Pods-MusicTest/Pods-MusicTest.release.xcconfig"; sourceTree = "<group>"; };
 		022C2555288A59820011B4FC /* OldFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldFile.swift; sourceTree = "<group>"; };
+		023E1D8B289A73BE00F9E791 /* QueueEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueEngine.swift; sourceTree = "<group>"; };
+		023E1D8D289B8C4600F9E791 /* QueueRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueRules.swift; sourceTree = "<group>"; };
 		023EF051288E8B3300D4FA58 /* SongEngineObserverPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongEngineObserverPresenter.swift; sourceTree = "<group>"; };
 		023EF0542891352400D4FA58 /* MusicPlayerTransitionAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerTransitionAnimation.swift; sourceTree = "<group>"; };
 		025298DC28938F6E008C8584 /* LineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineView.swift; sourceTree = "<group>"; };
@@ -161,6 +165,8 @@
 				02CDA2212885D2C9001B38B9 /* SongRules.swift */,
 				02CDA2232886B242001B38B9 /* SongEngine.swift */,
 				023EF051288E8B3300D4FA58 /* SongEngineObserverPresenter.swift */,
+				023E1D8B289A73BE00F9E791 /* QueueEngine.swift */,
+				023E1D8D289B8C4600F9E791 /* QueueRules.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -297,11 +303,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				025298DF289391F1008C8584 /* MainViewController.swift in Sources */,
+				023E1D8C289A73BE00F9E791 /* QueueEngine.swift in Sources */,
 				02CDA22028815135001B38B9 /* SongServices.swift in Sources */,
 				02CDA21E2881472B001B38B9 /* DetailViewController.swift in Sources */,
 				02CDA2222885D2C9001B38B9 /* SongRules.swift in Sources */,
 				02F47A75287C5710003E70A6 /* LoginViewController.swift in Sources */,
 				02CDA21A28813C3E001B38B9 /* Track.swift in Sources */,
+				023E1D8E289B8C4600F9E791 /* QueueRules.swift in Sources */,
 				023EF052288E8B3300D4FA58 /* SongEngineObserverPresenter.swift in Sources */,
 				026D3CFC287D1EE9004287F6 /* MediaPlayerRule.swift in Sources */,
 				02F47A80287C7792003E70A6 /* ViewTableCell.swift in Sources */,

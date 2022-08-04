@@ -9,6 +9,8 @@ import UIKit
 
 class MainViewController: UITabBarController {
     
+    private var track: Track?
+    
     static var minHeight: CGFloat {
         return DeviceType.current.isIphoneXClass ? 83 : 50
     }
@@ -23,7 +25,7 @@ class MainViewController: UITabBarController {
     
     lazy var miniPlayerView: LineView = {
         let lv = LineView()
-        lv.backgroundColor = UIColor.gray
+        lv.backgroundColor = UIColor.red.withAlphaComponent(0.5)
         lv.translatesAutoresizingMaskIntoConstraints = false
         return lv
     }()
@@ -56,8 +58,28 @@ class MainViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
-        setupMiniPlayer()
+        checkPlay()
         configureHiddenVC()
+        
+        SongEngine.sharedInstance.getSong = { [weak self] track in
+            guard let superself = self else {return}
+            superself.track = track
+            superself.titleLabel.text = track.title
+            superself.artistLabel.text = track.artist
+            superself.tapMiniPlayerButton()
+        }
+    }
+    
+    private func checkPlay(){
+        
+        let isAlreadyShow = UserDefaults.standard.bool(forKey: "alreadyPlaying")
+        
+        if isAlreadyShow {
+            setupMiniPlayer()
+            print("show")
+        } else {
+            print("mini player hide")
+        }
     }
     
     private func configureHiddenVC() {
@@ -70,13 +92,11 @@ class MainViewController: UITabBarController {
         tabBar.unselectedItemTintColor = .lightGray
         
         let homeNavigationController = UINavigationController(rootViewController: ViewController())
-        homeNavigationController.tabBarItem.title = "Home"
+        homeNavigationController.title = "Home"
+        homeNavigationController.tabBarItem.image = UIImage(named: "music.note.house")
+        homeNavigationController.tabBarItem.selectedImage = UIImage(named: "music.note.house.fill")
+        let homeVC = homeNavigationController.viewControllers.first as? ViewController
         
-        // di comment dulu karena UIImage(systemName:) cuma ada di iOS13
-//        homeNavigationController.tabBarItem.image = UIImage(systemName: "music.note.house")
-//        homeNavigationController.tabBarItem.selectedImage = UIImage(systemName: "music.note.house.fill")
-//        homeNavigationController.navigationBar.prefersLargeTitles = true
-    
         self.setViewControllers([homeNavigationController], animated: false)
     }
     
@@ -97,11 +117,9 @@ class MainViewController: UITabBarController {
         //add stack view as subview to main view with AutoLayout
         view.addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: miniPlayerView.centerXAnchor),
+            stackView.leadingAnchor.constraint(equalTo: miniPlayerView.leadingAnchor, constant: 24),
             stackView.centerYAnchor.constraint(equalTo: miniPlayerView.centerYAnchor)
         ])
-        titleLabel.text = "TITLE"
-        artistLabel.text = "ARTIST"
         
         view.addSubview(miniPlayerButton)
         NSLayoutConstraint.activate([
@@ -112,7 +130,7 @@ class MainViewController: UITabBarController {
         ])
     }
     
-    @objc private func tapMiniPlayerButton() {
+    @objc func tapMiniPlayerButton() {
         (hiddenVC as? DetailViewController)?.maximizePanelController(animated: true, duration: 0.5, completion: nil)
     }
     

@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow()
         
         if is_authenticated {
-            window.rootViewController = UINavigationController(rootViewController: MainViewController())
+            window.rootViewController = MainViewController()
             window.makeKeyAndVisible()
             self.window = window
         } else {
@@ -35,9 +35,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch let error as NSError {
             print("Setting category to AVAudioSessionCategoryPlayback failed: \(error)")
         }
-        
-        
         return true
+    }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        let def = UserDefaults.standard
+        def.set(false, forKey: "alreadyPlaying")
+        def.synchronize()
     }
 
 

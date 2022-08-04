@@ -30,3 +30,7 @@ var tracks: [Track] = [
     Track(title: "Somerset", artist: "Gallow", album: "Too Virgin!!", url: "https://firebasestorage.googleapis.com/v0/b/learn-da01a.appspot.com/o/GALLOW%2FToo%20Virgin!!%2FSomerset.mp3?alt=media"),
 
 ]
+
+struct QueueTemp {
+    static var queue = [Track]()
+}

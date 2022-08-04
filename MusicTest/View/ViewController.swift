@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol DataEnteredDelegate: AnyObject {
+    func userDidEnterInformation(track: Track?)
+}
+
 class ViewController: UIViewController {
     
     lazy var contentView: UIView = {
@@ -38,22 +42,17 @@ class ViewController: UIViewController {
     lazy var activityIndicator: UIActivityIndicatorView = {
       let activityIndicator = UIActivityIndicatorView()
       activityIndicator.hidesWhenStopped = true
-//      activityIndicator.style = .large
       activityIndicator.translatesAutoresizingMaskIntoConstraints = false
       return activityIndicator
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        self.tabBarController?.tabBar.isHidden = false
         setupView()
         setupActivityIndicator()
-//        configureHiddenVC()
     }
     
     func setupView() {
-        title = "Home"
 //        navigationController?.navigationBar.prefersLargeTitles = true   // iOS13
         view.backgroundColor = .white
         
@@ -113,27 +112,21 @@ extension ViewController : UITableViewDataSource {
         let track = tracks[indexPath.row]
         cell.textLabel?.text = track.title
         cell.detailTextLabel?.text = track.artist
-        //for left image
-//        cell.imageView?.image = UIImage(systemName: "play.circle.fill")
         
-        // iOS 13
         if #available(iOS 13.0, *) {
             cell.accessoryView = UIImageView(image: UIImage(systemName: "play.circle.fill"))
-        } else {
-            // Fallback on earlier versions
         }
-
+        
         return cell
     }
 }
 
 extension ViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        activityIndicator.startAnimating()
-        let vc = DetailViewController()
-        vc.track = tracks[indexPath.row]
-        self.navigationController?.pushViewController(vc, animated: true)
-        activityIndicator.stopAnimating()
+
+//        let vc = MainViewController()
+//        vc.clickedSong?(tracks[indexPath.row])
+        SongEngine.sharedInstance.getSong?(tracks[indexPath.row])
     }
 }
 

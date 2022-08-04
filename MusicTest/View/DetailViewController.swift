@@ -111,7 +111,11 @@ class DetailViewController: UIViewController {
     lazy var activityIndicator: UIActivityIndicatorView = {
       let activityIndicator = UIActivityIndicatorView()
       activityIndicator.hidesWhenStopped = true
-//      activityIndicator.style = .large //iOS13
+        if #available(iOS 13.0, *) {
+            activityIndicator.style = .large
+        } else {
+            // Fallback on earlier versions
+        }
       return activityIndicator
     }()
     
@@ -121,12 +125,15 @@ class DetailViewController: UIViewController {
         setupView()
         setupActivityIndicator()
         closePanelController(animated: false, completion: nil) // fix music player tidak ke hide
-        guard let track = track else {
-            return
+        
+        SongEngine.sharedInstance.getSong = { [weak self] track in
+            guard let superself = self else {return}
+            superself.track = track
+            superself.titleLabel.text = track.title
+            superself.artistLabel.text = track.artist
+            superself.albumLabel.text = track.album
+            print(track)
         }
-        titleLabel.text = track.title
-        artistLabel.text = track.artist
-        albumLabel.text = track.album
         
 //        SongEngine.sharedInstance.updateState = { [weak self] status in
 //            //karena self valuenya optional
@@ -215,6 +222,15 @@ class DetailViewController: UIViewController {
     
     @objc func clickStateButton(){
         
+        let isAlreadyShow = UserDefaults.standard.bool(forKey: "alreadyPlaying")
+        
+        if !isAlreadyShow {
+            let def = UserDefaults.standard
+            def.set(true, forKey: "alreadyPlaying")
+            def.synchronize()
+            print("play")
+        }
+        
         guard let track = track else {
             return
         }
@@ -231,9 +247,7 @@ class DetailViewController: UIViewController {
     }
     
     @objc func seeking(){
-        
         SongEngine.sharedInstance.seek(duration: duration, slider: sliderProgressBar.value)
-        
     }
     
 }
