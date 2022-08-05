@@ -128,15 +128,116 @@ class DetailViewController: UIViewController {
         setupActivityIndicator()
         closePanelController(animated: false, completion: nil) // fix music player tidak ke hide
         
-        SongEngine.sharedInstance.getSong = { [weak self] track in
+        QueueEngine.sharedInstance.getNowPlaying = { [weak self] track in
             guard let superself = self else {return}
             superself.track = track
             superself.titleLabel.text = track.title
             superself.artistLabel.text = track.artist
             superself.albumLabel.text = track.album
             print(track)
+            
+            let isAlreadyShow = UserDefaults.standard.bool(forKey: "alreadyPlaying")
+            
+            if !isAlreadyShow {
+                let def = UserDefaults.standard
+                def.set(true, forKey: "alreadyPlaying")
+                def.synchronize()
+                print("play")
+            }
+            
             superself.sendTrackInfo?(track)
         }
+        
+        QueueEngine.sharedInstance.updateState = { [weak self] state in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.currentState = state
+            if state == .Playing {
+                strongSelf.stateButton.setTitle("Pause", for: .normal)
+            }
+            else if state == .Pause {
+                strongSelf.stateButton.setTitle("Play", for: .normal)
+            }
+        }
+        
+        QueueEngine.sharedInstance.getUpdateDuration = { [weak self] duration in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.duration = duration
+            
+            let minute = Int(duration.truncatingRemainder(dividingBy: 3600) / 60)
+            let second = Int((duration.truncatingRemainder(dividingBy: 3600)).truncatingRemainder(dividingBy: 60))
+            
+            var minuteString = "00"
+            var secondString = "00"
+            
+            if minute < 10 {
+                minuteString = "0\(minute)"
+            } else {
+                minuteString = "\(minute)"
+            }
+            
+            if second < 10 {
+                secondString = "0\(second)"
+            } else {
+                secondString = "\(second)"
+            }
+            
+            strongSelf.durationSong.text = "\(minuteString):\(secondString)"
+            print("duration: \(Int(duration.truncatingRemainder(dividingBy: 3600) / 60)):\(Int((duration.truncatingRemainder(dividingBy: 3600)).truncatingRemainder(dividingBy: 60)))")
+        }
+        
+        QueueEngine.sharedInstance.getProgresTime = { [weak self] time in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            let percentTime = (time / strongSelf.duration) * 100
+            
+            let minute = Int(time.truncatingRemainder(dividingBy: 3600) / 60)
+            let second = Int((time.truncatingRemainder(dividingBy: 3600)).truncatingRemainder(dividingBy: 60))
+            
+            var minuteString = "00"
+            var secondString = "00"
+            
+            if minute < 10 {
+                minuteString = "0\(minute)"
+            } else {
+                minuteString = "\(minute)"
+            }
+            
+            if second < 10 {
+                secondString = "0\(second)"
+            } else {
+                secondString = "\(second)"
+            }
+            
+            strongSelf.currentDurationSong.text = "\(minuteString):\(secondString)"
+            
+            strongSelf.sliderProgressBar.value = Float(percentTime)
+            
+            print("percent: \(percentTime)")
+            
+            print("progress: \(minuteString):\(secondString)")
+        }
+        
+        
+//        SongEngine.sharedInstance.getSong = { [weak self] track in
+//            guard let superself = self else {return}
+//            superself.track = track
+//            superself.titleLabel.text = track.title
+//            superself.artistLabel.text = track.artist
+//            superself.albumLabel.text = track.album
+//            print(track)
+//            superself.sendTrackInfo?(track)
+//        }
         
 //        SongEngine.sharedInstance.updateState = { [weak self] status in
 //            //karena self valuenya optional

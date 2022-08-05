@@ -126,7 +126,8 @@ extension ViewController : UITableViewDelegate {
 
 //        let vc = MainViewController()
 //        vc.clickedSong?(tracks[indexPath.row])
-        SongEngine.sharedInstance.getSong?(tracks[indexPath.row])
+//        SongEngine.sharedInstance.getSong?(tracks[indexPath.row])
+        QueueEngine.sharedInstance.addQueue(track: tracks)
     }
 }
 

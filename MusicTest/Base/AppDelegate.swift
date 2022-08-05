@@ -19,6 +19,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let is_authenticated = def.bool(forKey: "is_authenticated") // return false if not found or stored value
         let window = UIWindow()
         
+        
+//        let def = UserDefaults.standard
+        def.set(false, forKey: "alreadyPlaying")
+        def.synchronize()
+        
         if is_authenticated {
             window.rootViewController = MainViewController()
             window.makeKeyAndVisible()

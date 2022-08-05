@@ -43,7 +43,11 @@ class SongEngine: NSObject, MediaPlayerSetupRules {
     var updateState: ((State) -> ())?
     var playerError: ((Error) -> ())?
     
-    var getSong: ((Track) -> ())?
+//    var getSong: ((Track) -> ())?
+    
+    var getProgresTime: ((Double) -> ())?
+    var getUpdateDuration: ((Double) -> ())?
+    var getUpdateBuffer: ((Double) -> ())?
     
     override init() {
         player = AVPlayer()
@@ -297,9 +301,10 @@ extension SongEngine: PrivateSongPlayerObserverRule {
     }
     
     func setTimeObserver(interval: CMTime) {
-        self.timeObserver = player.addPeriodicTimeObserver(forInterval: interval, queue: .main, using: { time in
+        self.timeObserver = player.addPeriodicTimeObserver(forInterval: interval, queue: .main, using: { [weak self] time in
             //do time update
-            self.songDelegate?.updateProgresTime(time: time.seconds)
+            self?.songDelegate?.updateProgresTime(time: time.seconds)
+            self?.getProgresTime?(time.seconds)
             //update time media info here
             MPNowPlayingInfoCenter.default().nowPlayingInfo?.updateValue(time.seconds, forKey: MPNowPlayingInfoPropertyElapsedPlaybackTime)
             if #available(iOS 13.0, *) {
@@ -314,16 +319,19 @@ extension SongEngine: PrivateSongPlayerObserverRule {
         
         if let bufferValue = player.currentItem?.loadedTimeRanges.last?.timeRangeValue.end.seconds {
             songDelegate?.updateBuffer(second: bufferValue)
+            getUpdateBuffer?(bufferValue)
         }
         else {
             print("buffer still empty")
             songDelegate?.updateBuffer(second: 0)
+            getUpdateBuffer?(0)
         }
     }
     
     func doUpdateDuration(duration: Double) {
         //totalTime
         songDelegate?.updateDuration(time: duration)
+        getUpdateDuration?(duration)
     }
     
 }

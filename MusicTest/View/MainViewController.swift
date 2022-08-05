@@ -60,6 +60,7 @@ class MainViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
+        setupMiniPlayer()
         checkPlay()
         configureHiddenVC()
         
@@ -68,6 +69,7 @@ class MainViewController: UITabBarController {
             superself.track = track
             superself.titleLabel.text = track.title
             superself.artistLabel.text = track.artist
+            superself.checkPlay()
             superself.tapMiniPlayerButton()
         }
         
@@ -80,14 +82,16 @@ class MainViewController: UITabBarController {
 //        }
     }
     
-    private func checkPlay(){
+    private func checkPlay() {
         
         let isAlreadyShow = UserDefaults.standard.bool(forKey: "alreadyPlaying")
         
         if isAlreadyShow {
-            setupMiniPlayer()
+//            setupMiniPlayer()
+            miniPlayerView.isHidden = false
             print("show")
         } else {
+            miniPlayerView.isHidden = true
             print("mini player hide")
         }
     }

@@ -44,7 +44,11 @@ protocol SongRules {
     
     var playerError: ((Error) -> ())? { get set }
     var updateState: ((State) -> Void)? { get set }
-    var getSong: ((Track) -> Void)? {get set}
+//    var getSong: ((Track) -> Void)? {get set}
+    
+    var getProgresTime: ((Double) -> ())? { get set }
+    var getUpdateDuration: ((Double) -> ())? { get set }
+    var getUpdateBuffer: ((Double) -> ())? { get set }
 }
 
 enum State {
