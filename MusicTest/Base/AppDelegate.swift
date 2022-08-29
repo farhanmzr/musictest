@@ -17,8 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         let def = UserDefaults.standard
         let is_authenticated = def.bool(forKey: "is_authenticated") // return false if not found or stored value
-        let window = UIWindow()
         
+        def.set(false, forKey: "alreadyPlaying")
+        def.synchronize()
+        
+        let window = UIWindow()
+    
         if is_authenticated {
             window.rootViewController = MainViewController()
             window.makeKeyAndVisible()
@@ -36,12 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Setting category to AVAudioSessionCategoryPlayback failed: \(error)")
         }
         return true
-    }
-    
-    func applicationWillTerminate(_ application: UIApplication) {
-        let def = UserDefaults.standard
-        def.set(false, forKey: "alreadyPlaying")
-        def.synchronize()
     }
 
 

@@ -7,28 +7,14 @@
 
 import UIKit
 
-protocol DataEnteredDelegate: AnyObject {
-    func userDidEnterInformation(track: Track?)
-}
-
 class ViewController: UIViewController {
     
-    lazy var contentView: UIView = {
+    // making this a weak variable so that it won't create a strong reference cycle
+    
+    private lazy var contentView: UIView = {
       let contentView = UIView()
       contentView.translatesAutoresizingMaskIntoConstraints = false
       return contentView
-    }()
-    
-    private lazy var logoutButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Logout", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.cornerRadius = 5
-        button.backgroundColor = UIColor.systemBlue
-        button.addTarget(self, action: #selector(clickLogout), for: .touchUpInside)
-        return button
     }()
     
     private lazy var tableView: UITableView = {
@@ -50,33 +36,25 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupActivityIndicator()
+        
+        //closure return index row
+        //reloadSpesificTable
     }
     
     func setupView() {
-//        navigationController?.navigationBar.prefersLargeTitles = true   // iOS13
         view.backgroundColor = .white
         
         view.addSubview(contentView)
         NSLayoutConstraint.activate([
           contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
           contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-          
-          // di ganti karena support ke iOS 13 doang
-          
           contentView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
           contentView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor)
         ])
         
-        contentView.addSubview(logoutButton)
-        NSLayoutConstraint.activate([
-            logoutButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            logoutButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
-            logoutButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40)
-        ])
-        
         contentView.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: logoutButton.bottomAnchor, constant: 20),
+            tableView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
             tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -48),
             tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
@@ -91,12 +69,6 @@ class ViewController: UIViewController {
       view.bringSubviewToFront(activityIndicator)
       activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
       activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    }
-    
-    @objc func clickLogout(){
-        UserDefaults.standard.removeObject(forKey: "is_authenticated")
-        let viewController = LoginViewController()
-        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
@@ -113,20 +85,36 @@ extension ViewController : UITableViewDataSource {
         cell.textLabel?.text = track.title
         cell.detailTextLabel?.text = track.artist
         
-        if #available(iOS 13.0, *) {
-            cell.accessoryView = UIImageView(image: UIImage(systemName: "play.circle.fill"))
-        }
+        let accessoryButton = UIButton(type: .custom)
+        let action = #selector(btnDownloadTap(sender:event:))
+            accessoryButton.addTarget(self, action: action, for: .touchUpInside)
+        accessoryButton.setImage(UIImage(named: "save"), for: .normal)
+            accessoryButton.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+            accessoryButton.contentMode = .scaleAspectFit
+        cell.accessoryView = accessoryButton as UIView
         
         return cell
+    }
+    
+    @objc func btnDownloadTap(sender: UIButton?, event: UIEvent){
+        let touches = event.allTouches
+        let touch = touches!.first
+        guard let touchPosition = touch?.location(in: self.tableView) else {
+            return
+        }
+        if let indexPath = tableView.indexPathForRow(at: touchPosition) {
+            tableView(self.tableView, accessoryButtonTappedForRowWith: indexPath)
+        }
     }
 }
 
 extension ViewController : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-//        let vc = MainViewController()
-//        vc.clickedSong?(tracks[indexPath.row])
-        SongEngine.sharedInstance.getSong?(tracks[indexPath.row])
+        QueueEngine.sharedInstance.addQueue(track: tracks, index: indexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        QueueEngine.sharedInstance.downloadCustomFileSong(track: tracks[indexPath.row])
     }
 }
 

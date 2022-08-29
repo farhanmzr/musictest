@@ -87,6 +87,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    
     private func setupActivityIndicator() {
       view.addSubview(activityIndicator)
       view.bringSubviewToFront(activityIndicator)
@@ -155,8 +156,11 @@ class LoginViewController: UIViewController {
                 def.synchronize()
                 self.presentAlertOK(title: "Login Success", message: "You are now logging in this app.") { _ in
                     let viewcontroller = MainViewController()
-                    self.navigationController?.pushViewController(viewcontroller, animated: true)
                     //move root controller
+                    let nav = UINavigationController(rootViewController: viewcontroller)
+                    UIApplication.shared.windows.first?.rootViewController = nav
+                    UIApplication.shared.windows.first?.makeKeyAndVisible()
+                    
                 }
             } else {
                 self.activityIndicator.stopAnimating()

@@ -27,6 +27,7 @@ class DetailViewController: UIViewController {
     var duration = 0.0
     
     var sendTrackInfo: ((Track) -> ())?
+    var sendState: ((State) -> ())?
     
     private var sliderThumbWidth:CGFloat?
     private var bufferIndicator:UIView?
@@ -82,7 +83,7 @@ class DetailViewController: UIViewController {
         slider.translatesAutoresizingMaskIntoConstraints = false
         slider.minimumTrackTintColor = UIColor.red
         slider.maximumTrackTintColor = UIColor.lightGray
-        slider.addTarget(self, action: #selector(seeking), for: .touchUpInside)
+        slider.addTarget(self, action: #selector(seeking), for: .valueChanged)
         return slider
     }()
     
@@ -110,6 +111,34 @@ class DetailViewController: UIViewController {
         return button
     }()
     
+    lazy var nextBtn: UIButton = {
+        var button = UIButton(type: .system)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 5
+        button.layer.masksToBounds = true
+        button.setTitle("Next", for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
+        button.backgroundColor = UIColor.systemBlue
+        button.addTarget(self, action: #selector(clickNextSong), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var prevBtn: UIButton = {
+        var button = UIButton(type: .system)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 5
+        button.layer.masksToBounds = true
+        button.setTitle("Previous", for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
+        button.backgroundColor = UIColor.systemBlue
+        button.addTarget(self, action: #selector(clickPrevSong), for: .touchUpInside)
+        return button
+    }()
+    
     lazy var activityIndicator: UIActivityIndicatorView = {
       let activityIndicator = UIActivityIndicatorView()
       activityIndicator.hidesWhenStopped = true
@@ -128,25 +157,95 @@ class DetailViewController: UIViewController {
         setupActivityIndicator()
         closePanelController(animated: false, completion: nil) // fix music player tidak ke hide
         
-        SongEngine.sharedInstance.getSong = { [weak self] track in
+        QueueEngine.sharedInstance.getNowPlaying = { [weak self] track in
             guard let superself = self else {return}
             superself.track = track
             superself.titleLabel.text = track.title
             superself.artistLabel.text = track.artist
             superself.albumLabel.text = track.album
-            print(track)
+            
+            let isAlreadyShow = UserDefaults.standard.bool(forKey: "alreadyPlaying")
+            if !isAlreadyShow {
+                let def = UserDefaults.standard
+                def.set(true, forKey: "alreadyPlaying")
+                def.synchronize()
+                print("play")
+            }
             superself.sendTrackInfo?(track)
         }
         
-//        SongEngine.sharedInstance.updateState = { [weak self] status in
-//            //karena self valuenya optional
-//            guard let superself = self else {return}
-//            superself.currentState = status
-//        }
+        QueueEngine.sharedInstance.getUpdateDuration = { [weak self] duration in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.duration = duration
+            
+            let minute = Int(duration.truncatingRemainder(dividingBy: 3600) / 60)
+            let second = Int((duration.truncatingRemainder(dividingBy: 3600)).truncatingRemainder(dividingBy: 60))
+            
+            var minuteString = "00"
+            var secondString = "00"
+            
+            if minute < 10 {
+                minuteString = "0\(minute)"
+            } else {
+                minuteString = "\(minute)"
+            }
+            
+            if second < 10 {
+                secondString = "0\(second)"
+            } else {
+                secondString = "\(second)"
+            }
+            
+            strongSelf.durationSong.text = "\(minuteString):\(secondString)"
+//            print("duration: \(Int(duration.truncatingRemainder(dividingBy: 3600) / 60)):\(Int((duration.truncatingRemainder(dividingBy: 3600)).truncatingRemainder(dividingBy: 60)))")
+        }
         
-//        SongEngine.sharedInstance.songDelegate = self
-        
-        
+        QueueEngine.sharedInstance.getProgresTime = { [weak self] time in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            
+            let percentTime = (time / strongSelf.duration) * 100
+            
+            let minute = Int(time.truncatingRemainder(dividingBy: 3600) / 60)
+            let second = Int((time.truncatingRemainder(dividingBy: 3600)).truncatingRemainder(dividingBy: 60))
+            
+            var minuteString = "00"
+            var secondString = "00"
+            
+            if minute < 10 {
+                minuteString = "0\(minute)"
+            } else {
+                minuteString = "\(minute)"
+            }
+            
+            if second < 10 {
+                secondString = "0\(second)"
+            } else {
+                secondString = "\(second)"
+            }
+            
+            strongSelf.currentDurationSong.text = "\(minuteString):\(secondString)"
+            strongSelf.sliderProgressBar.value = Float(percentTime)
+        }
+
+        QueueEngine.sharedInstance.updateState = { [weak self] state in
+            //karena self valuenya optional
+            guard let superself = self else {return}
+            superself.currentState = state
+            if state == .Playing {
+                superself.stateButton.setTitle("Pause", for: .normal)
+            }
+            else if state == .Pause {
+                superself.stateButton.setTitle("Play", for: .normal)
+            }
+            superself.sendState?(superself.currentState)
+        }
     }
     
     func closePanelController(animated: Bool, completion: (() -> Void)?) {
@@ -217,6 +316,19 @@ class DetailViewController: UIViewController {
             stateButton.topAnchor.constraint(equalTo: currentDurationSong.bottomAnchor, constant: 32),
             stateButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+        view.addSubview(prevBtn)
+        NSLayoutConstraint.activate([
+            prevBtn.topAnchor.constraint(equalTo: stateButton.topAnchor),
+            prevBtn.bottomAnchor.constraint(equalTo: stateButton.bottomAnchor),
+            prevBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24)
+        ])
+        view.addSubview(nextBtn)
+        NSLayoutConstraint.activate([
+            nextBtn.topAnchor.constraint(equalTo: stateButton.topAnchor),
+            nextBtn.bottomAnchor.constraint(equalTo: stateButton.bottomAnchor),
+            nextBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+        ])
+        
     }
     
     @objc private func minimizeThisPage() {
@@ -246,103 +358,20 @@ class DetailViewController: UIViewController {
         } else if currentState == .Playing {
             SongEngine.sharedInstance.pause()
         }
-        
+    }
+    
+    @objc func clickNextSong(){
+        QueueEngine.sharedInstance.moveNextQueue()
+    }
+    
+    @objc func clickPrevSong(){
+        QueueEngine.sharedInstance.movePrevQueue()
     }
     
     @objc func seeking(){
         SongEngine.sharedInstance.seek(duration: duration, slider: sliderProgressBar.value)
     }
     
-}
-
-extension DetailViewController: SongDelegate {
-    
-    func updateState(state: State) {
-        currentState = state
-        if state == .Playing {
-            stateButton.setTitle("Pause", for: .normal)
-        }
-        else if state == .Pause {
-            stateButton.setTitle("Play", for: .normal)
-        }
-    }
-    
-    func updateProgresTime(time: Double) {
-        let percentTime = (time / duration) * 100
-        
-        let minute = Int(time.truncatingRemainder(dividingBy: 3600) / 60)
-        let second = Int((time.truncatingRemainder(dividingBy: 3600)).truncatingRemainder(dividingBy: 60))
-        
-        var minuteString = "00"
-        var secondString = "00"
-        
-        if minute < 10 {
-            minuteString = "0\(minute)"
-        } else {
-            minuteString = "\(minute)"
-        }
-        
-        if second < 10 {
-            secondString = "0\(second)"
-        } else {
-            secondString = "\(second)"
-        }
-        
-        currentDurationSong.text = "\(minuteString):\(secondString)"
-        
-        sliderProgressBar.value = Float(percentTime)
-        
-        print("percent: \(percentTime)")
-        
-        print("progress: \(minuteString):\(secondString)")
-    }
-    
-    func updateDuration(time: Double) {
-        duration = time
-        
-        let minute = Int(time.truncatingRemainder(dividingBy: 3600) / 60)
-        let second = Int((time.truncatingRemainder(dividingBy: 3600)).truncatingRemainder(dividingBy: 60))
-        
-        var minuteString = "00"
-        var secondString = "00"
-        
-        if minute < 10 {
-            minuteString = "0\(minute)"
-        } else {
-            minuteString = "\(minute)"
-        }
-        
-        if second < 10 {
-            secondString = "0\(second)"
-        } else {
-            secondString = "\(second)"
-        }
-        
-        durationSong.text = "\(minuteString):\(secondString)"
-        print("duration: \(Int(time.truncatingRemainder(dividingBy: 3600) / 60)):\(Int((time.truncatingRemainder(dividingBy: 3600)).truncatingRemainder(dividingBy: 60)))")
-    }
-    
-    func updateBuffer(second: Double) {
-        
-        var frame = sliderProgressBar.frame
-        
-        guard let sliderThumbWidth = self.sliderThumbWidth else {
-            return
-        }
-        
-        let buffer = second / duration
-        
-        print("buffer: \(buffer)")
-        
-        let width = frame.size.width
-        
-        frame.origin.x = sliderProgressBar.frame.origin.x
-        frame.size.width = CGFloat(buffer) * width
-        
-        let frameValue = frame
-        
-        bufferIndicator?.frame = frameValue
-    }
 }
 
 extension DetailViewController {
@@ -359,14 +388,14 @@ extension DetailViewController {
         self.view.frame = CGRect(x: 0, y: self.partialView,
                                  width: frame.width, height: frame.height)
         self.view.layoutIfNeeded()
-        print("minimize frame result: \(self.view.frame)")
+//        print("minimize frame result: \(self.view.frame)")
     }
     
     func setMaximizePanel(frame: CGRect) {
         self.view.frame = CGRect(x: 0, y: self.fullView,
                                  width: frame.width, height: frame.height)
         self.view.layoutIfNeeded()
-        print("maximize frame result: \(self.view.frame)")
+//        print("maximize frame result: \(self.view.frame)")
     }
     
     func closePanelMusicPlayer_WithAnimation(isFinish: @escaping (Bool)->()) {
@@ -437,6 +466,12 @@ extension DetailViewController {
     
     func setPanelState(state: MusicPlayerViewControllerPanelState) {
         panelState = state
+    }
+}
+
+extension DetailViewController {
+    func getButtonPlayPause() -> UIButton {
+        return stateButton
     }
 }
 

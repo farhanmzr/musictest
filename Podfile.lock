@@ -1,16 +1,20 @@
 PODS:
+  - Alamofire (5.6.2)
   - ARNTransitionAnimator (3.2.0)
 
 DEPENDENCIES:
+  - Alamofire
   - ARNTransitionAnimator
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - ARNTransitionAnimator
 
 SPEC CHECKSUMS:
+  Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
   ARNTransitionAnimator: 6fea1fe318b251abfd3cbd06d91215deb374ae40
 
-PODFILE CHECKSUM: ea84b772ef2a9f68d2b6688713c2cc19c65f8725
+PODFILE CHECKSUM: 207351efd0e17935f1dee240fcd1b9f73c84681f
 
 COCOAPODS: 1.11.3

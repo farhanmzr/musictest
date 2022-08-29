@@ -8,6 +8,7 @@
 import Foundation
 import MediaPlayer
 import AVFoundation
+import Alamofire
 
 class SongEngine: NSObject, MediaPlayerSetupRules {
     
@@ -16,7 +17,6 @@ class SongEngine: NSObject, MediaPlayerSetupRules {
     fileprivate var playerItem: AVPlayerItem? = nil
     private var isPlaying: State = .Stop {
         didSet {
-            songDelegate?.updateState(state: isPlaying)
             updateState?(isPlaying)
         }
     }
@@ -34,8 +34,6 @@ class SongEngine: NSObject, MediaPlayerSetupRules {
     
     private var presenterObserver: SongPlayerObserverPresenterRule?
     
-    weak var songDelegate: SongDelegate?
-    
     private var presenter: MediaPlayerPresenterRules?
     
     static var sharedInstance: SongRules = SongEngine()
@@ -43,14 +41,17 @@ class SongEngine: NSObject, MediaPlayerSetupRules {
     var updateState: ((State) -> ())?
     var playerError: ((Error) -> ())?
     
-    var getSong: ((Track) -> ())?
+//    var getSong: ((Track) -> ())?
+    var getProgresTime: ((Double) -> ())?
+    var getUpdateDuration: ((Double) -> ())?
+    var getUpdateBuffer: ((Double) -> ())?
     
     override init() {
         player = AVPlayer()
         super.init()
         presenter = MediaPlayerPresenter(controller: self)
         presenterObserver = SongEngineObserverPresenter(controller: self)
-        //
+        
     }
     
     override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -68,20 +69,35 @@ extension SongEngine: SongRules {
     func setSong<T>(item: T) {
         guard let itemTrack = item as? Track else {return}
         track = itemTrack
-        let setupUrl = AVURLAsset(url: URL(string: track?.url ?? "")!, options: [:])
-        let songUrl = AVPlayerItem(asset: setupUrl)
-        playerItem = songUrl
-        playerItem?.preferredForwardBufferDuration = 5
-        player = AVPlayer(playerItem: songUrl)
+        
+        let documentsDirectoryURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let audioUrl = URL(string: itemTrack.url)
+        let destinationUrl = documentsDirectoryURL.appendingPathComponent(audioUrl!.lastPathComponent)
+    
+        // to check if it exists before downloading it
+        if FileManager.default.fileExists(atPath: destinationUrl.path) {
+            print("The file already exists at path setsong")
+            let setupUrl = AVURLAsset(url: destinationUrl, options: [:])
+            playerItem = AVPlayerItem(asset: setupUrl)
+            player = AVPlayer(playerItem: playerItem)
+            
+        // if the file doesn't exist
+        } else {
+            print("streaming")
+            let setupUrl = AVURLAsset(url: URL(string: itemTrack.url)!, options: [:])
+            let songUrl = AVPlayerItem(asset: setupUrl)
+            playerItem = songUrl
+            //explore when end song duration more
+            player = AVPlayer(playerItem: songUrl)
+        }
         isPlaying = .Loading
-        registerObserver(item: songUrl)
+        registerObserver(item: playerItem)
         dict = ["player": player, "item": playerItem]
         setupRemoteCommandCenter()
     }
     
     @objc func itemDidPlayToEnd() {
-        pause()
-        player.seek(to: .zero) { _ in}
+        stop()
     }
     
     func getDuration() -> Double? {
@@ -97,9 +113,9 @@ extension SongEngine: SongRules {
     func play() {
         self.presenter?.checkCurrentItem(item: player.currentItem)
         player.play()
-        isPlaying = .Playing
         guard let track = track else {return}
         guard let dict = dict else {return}
+        isPlaying = .Playing
         setupNowPlaying(state: false, dict: dict, track: track)
     }
     
@@ -131,6 +147,106 @@ extension SongEngine: SongRules {
     
     func togglePlayPause() {
         self.presenter?.toggle(state: isPlaying)
+    }
+    
+}
+
+extension SongEngine: RemoveFileSong {
+    
+    func removeFileSong(completion: (Bool) -> Void) {
+        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let audioKitFilesFolder = documentsUrl.appendingPathComponent("CustomSongFilesFolder")
+        do {
+            let fileURLs = try FileManager.default.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: [])
+            let customFileURLs = try FileManager.default.contentsOfDirectory(at: audioKitFilesFolder, includingPropertiesForKeys: nil, options: [])
+            
+            for fileURL in fileURLs where fileURL.pathExtension == "mp3" {
+                try FileManager.default.removeItem(at: fileURL)
+            }
+            for customFileURL in customFileURLs where customFileURL.pathExtension == "mp3" {
+                try FileManager.default.removeItem(at: customFileURL)
+            }
+            completion(true)
+        } catch  {
+            completion(false)
+            print(error)
+        }
+    }
+    
+    
+}
+
+extension SongEngine: DownloadFileSong {
+    
+    func downloadCustomFolderSong(urlSong: String) {
+        if let audioUrl = URL(string: urlSong) {
+        
+            // then lets create your document folder url
+            let documentsDirectoryURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            
+            let audioKitFilesFolder = documentsDirectoryURL.appendingPathComponent("CustomSongFilesFolder")
+            // lets create your destination file url
+            do {
+                try FileManager.default.createDirectory(atPath: audioKitFilesFolder.path, withIntermediateDirectories: true, attributes: nil)
+                
+                let destinationUrl = audioKitFilesFolder.appendingPathComponent(audioUrl.lastPathComponent)
+                print(destinationUrl)
+                
+                if FileManager.default.fileExists(atPath: destinationUrl.path) {
+                    print("The file already exists at path when download")
+                // if the file doesn't exist
+                } else {
+                    let destination: DownloadRequest.Destination = { _, _ in
+                        return (destinationUrl, [.removePreviousFile])
+                    }
+                    AF.download(audioUrl, to: destination)
+                    .downloadProgress { progress in
+                        print("Download Progress: \(progress.fractionCompleted)")
+                    }
+                    .response { response in
+                        if response.error == nil {
+                            print("Success Download")
+                        } else {
+                            print(response.error?.errorDescription)
+                        }
+                    }
+                }
+            } catch let error as NSError {
+                print("Error creating directory: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func downloadFileSong(track: Track) {
+        if let audioUrl = URL(string: track.url) {
+        
+            // then lets create your document folder url
+            let documentsDirectoryURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        
+            // lets create your destination file url
+            let destinationUrl = documentsDirectoryURL.appendingPathComponent(audioUrl.lastPathComponent)
+            print(destinationUrl)
+            
+            if FileManager.default.fileExists(atPath: destinationUrl.path) {
+                print("The file already exists at path when download")
+            // if the file doesn't exist
+            } else {
+                let destination: DownloadRequest.Destination = { _, _ in
+                    return (destinationUrl, [.removePreviousFile])
+                }
+                AF.download(audioUrl, to: destination)
+                .downloadProgress { progress in
+                    print("Download Progress: \(progress.fractionCompleted)")
+                }
+                .response { response in
+                    if response.error == nil {
+                        print("Success Download")
+                    } else {
+                        print(response.error?.errorDescription)
+                    }
+                }
+            }
+        }
     }
     
 }
@@ -297,9 +413,9 @@ extension SongEngine: PrivateSongPlayerObserverRule {
     }
     
     func setTimeObserver(interval: CMTime) {
-        self.timeObserver = player.addPeriodicTimeObserver(forInterval: interval, queue: .main, using: { time in
+        self.timeObserver = player.addPeriodicTimeObserver(forInterval: interval, queue: .main, using: { [weak self] time in
             //do time update
-            self.songDelegate?.updateProgresTime(time: time.seconds)
+            self?.getProgresTime?(time.seconds)
             //update time media info here
             MPNowPlayingInfoCenter.default().nowPlayingInfo?.updateValue(time.seconds, forKey: MPNowPlayingInfoPropertyElapsedPlaybackTime)
             if #available(iOS 13.0, *) {
@@ -313,17 +429,17 @@ extension SongEngine: PrivateSongPlayerObserverRule {
     func setBufferObserver() {
         
         if let bufferValue = player.currentItem?.loadedTimeRanges.last?.timeRangeValue.end.seconds {
-            songDelegate?.updateBuffer(second: bufferValue)
+            getUpdateBuffer?(bufferValue)
         }
         else {
             print("buffer still empty")
-            songDelegate?.updateBuffer(second: 0)
+            getUpdateBuffer?(0)
         }
     }
     
     func doUpdateDuration(duration: Double) {
         //totalTime
-        songDelegate?.updateDuration(time: duration)
+        getUpdateDuration?(duration)
     }
     
 }

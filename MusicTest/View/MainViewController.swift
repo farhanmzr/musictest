@@ -11,14 +11,14 @@ class MainViewController: UITabBarController {
     
     private var track: Track?
     
+    var currentState: State?
+
     static var minHeight: CGFloat {
         return DeviceType.current.isIphoneXClass ? 83 : 50
     }
     static var maxHeight: CGFloat {
         return DeviceType.current.isIphoneXClass ? 125 : 100
     }
-    
-    private var player = SongEngine.sharedInstance
     
     private let hiddenVC: UIViewController = {
         let vc = DetailViewController()
@@ -50,6 +50,13 @@ class MainViewController: UITabBarController {
       return label
     }()
     
+    private lazy var playPauseButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(tapPlayPauseButton), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var miniPlayerButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -60,6 +67,7 @@ class MainViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTabBar()
+        setupMiniPlayer()
         checkPlay()
         configureHiddenVC()
         
@@ -68,7 +76,32 @@ class MainViewController: UITabBarController {
             superself.track = track
             superself.titleLabel.text = track.title
             superself.artistLabel.text = track.artist
+            superself.checkPlay()
             superself.tapMiniPlayerButton()
+        }
+        
+//        QueueEngine.sharedInstance.updateState = { [weak self] state in
+//            //karena self valuenya optional
+//            guard let superself = self else {return}
+//            superself.currentState = state
+//            print("main state \(superself.currentState)")
+//            if state == .Playing {
+//                superself.playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
+//            }
+//            else if state == .Pause || state == .Stop {
+//                superself.playPauseButton.setImage(UIImage(named: "play.fill"), for: .normal)
+//            }
+//        }
+        
+        (hiddenVC as? DetailViewController)?.sendState = { [weak self] state in
+            guard let superself = self else {return}
+            superself.currentState = state
+            if state == .Playing {
+                superself.playPauseButton.setImage(UIImage(named: "pause"), for: .normal)
+            }
+            else if state == .Pause || state == .Stop {
+                superself.playPauseButton.setImage(UIImage(named: "play.fill"), for: .normal)
+            }
         }
         
 //        SongEngine.sharedInstance.getSong = { [weak self] track in
@@ -85,9 +118,12 @@ class MainViewController: UITabBarController {
         let isAlreadyShow = UserDefaults.standard.bool(forKey: "alreadyPlaying")
         
         if isAlreadyShow {
-            setupMiniPlayer()
+            miniPlayerView.isHidden = false
+            miniPlayerButton.isHidden = false
             print("show")
         } else {
+            miniPlayerView.isHidden = true
+            miniPlayerButton.isHidden = true
             print("mini player hide")
         }
     }
@@ -107,7 +143,13 @@ class MainViewController: UITabBarController {
         homeNavigationController.tabBarItem.selectedImage = UIImage(named: "music.note.house.fill")
         let homeVC = homeNavigationController.viewControllers.first as? ViewController
         
-        self.setViewControllers([homeNavigationController], animated: false)
+        
+        let profileNavigationController = UINavigationController(rootViewController: ProfileViewController())
+        profileNavigationController.title = "Profile"
+        profileNavigationController.tabBarItem.image = UIImage(named: "person")
+        profileNavigationController.tabBarItem.selectedImage = UIImage(named: "person.fill")
+        
+        self.setViewControllers([homeNavigationController, profileNavigationController], animated: false)
     }
     
     private func setupMiniPlayer(){
@@ -138,6 +180,21 @@ class MainViewController: UITabBarController {
             miniPlayerButton.leadingAnchor.constraint(equalTo: miniPlayerView.leadingAnchor),
             miniPlayerButton.trailingAnchor.constraint(equalTo: miniPlayerView.trailingAnchor)
         ])
+        
+        view.addSubview(playPauseButton)
+        NSLayoutConstraint.activate([
+            playPauseButton.topAnchor.constraint(equalTo: miniPlayerButton.topAnchor),
+            playPauseButton.bottomAnchor.constraint(equalTo: miniPlayerButton.bottomAnchor),
+            playPauseButton.trailingAnchor.constraint(equalTo: miniPlayerButton.trailingAnchor, constant: -24)
+        ])
+    }
+    
+    @objc func tapPlayPauseButton() {
+        if currentState == .Playing {
+            SongEngine.sharedInstance.pause()
+        } else if currentState == .Pause {
+            SongEngine.sharedInstance.play()
+        }
     }
     
     @objc func tapMiniPlayerButton() {

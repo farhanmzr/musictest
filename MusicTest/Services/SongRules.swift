@@ -22,20 +22,11 @@ enum SongError: Error, LocalizedError {
     }
 }
 
-protocol SongDelegate: AnyObject {
-    func updateState(state: State)
-    func updateProgresTime(time: Double)
-    func updateDuration(time:Double)
-    func updateBuffer(second:Double)
-}
-
 protocol SongRules {
     
-    var songDelegate: SongDelegate? { get set }
     func play()
     func stop()
     func pause()
-//    func setSong(url: String)
     func seek(duration: Double, slider: Float)
     func togglePlayPause()
     func getDuration() -> Double?
@@ -44,7 +35,11 @@ protocol SongRules {
     
     var playerError: ((Error) -> ())? { get set }
     var updateState: ((State) -> Void)? { get set }
-    var getSong: ((Track) -> Void)? {get set}
+//    var getSong: ((Track) -> Void)? {get set}
+    var getProgresTime: ((Double) -> ())? { get set }
+    var getUpdateDuration: ((Double) -> ())? { get set }
+    var getUpdateBuffer: ((Double) -> ())? { get set }
+
 }
 
 enum State {
@@ -76,6 +71,15 @@ protocol MediaPlayerPresenterRules {
     func checkState_Seek(state: State)
     func toggle(state: State)
     func checkCurrentItem(item: AVPlayerItem?)
+}
+
+protocol DownloadFileSong {
+    func downloadFileSong(track: Track)
+    func downloadCustomFolderSong(urlSong: String)
+}
+
+protocol RemoveFileSong {
+    func removeFileSong(completion: (_ result: Bool) -> Void)
 }
 
 protocol MediaPlayerInfoCenter {

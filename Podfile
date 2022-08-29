@@ -7,5 +7,6 @@ target 'MusicTest' do
 
   # Pods for MusicTest
   pod "ARNTransitionAnimator"
+  pod 'Alamofire'
 
 end
